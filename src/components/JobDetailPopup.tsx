@@ -48,19 +48,21 @@ export default function JobDetailPopup({ job }: Props) {
                     <p className="p-5 border border-gray-300">{job.description}</p>
                 </div>
 
-                <div className="flex justify-between">
+                <div className="flex justify-center">
                     <button
                         className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600 mr-2"
                         onClick={() => dispatch(toggleJobDetailPopup())}
                     >
                         Close
                     </button>
-                    <button
-                        className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600 ml-2"
-                        onClick={handleApplyToJob}
-                    >
-                        Apply
-                    </button>
+                    {!account.user.appliedJobs.includes(job.id) &&
+                        <button
+                            className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600 ml-2"
+                            onClick={handleApplyToJob}
+                        >
+                            Apply
+                        </button>
+                    }
                 </div>
 
                 <button

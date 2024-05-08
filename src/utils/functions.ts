@@ -64,10 +64,41 @@ export const applyToJob = (jobId: string, accessToken: string): Promise<any> => 
     });
 }
 
-export const getJobs = (accessToken: string): Promise<any> => {
+export const withdrawJob = (jobId: string, accessToken: string): Promise<any> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('https://novel-project-ntj8t.ampt.app/api/jobs', {
+            const response = await fetch('https://novel-project-ntj8t.ampt.app/api/jobs/' + jobId + '/withdraw', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
+                },
+                body: "",
+            });
+
+            const data = await response.json();
+            console.log('Withdraw from job?', data);
+            resolve({
+                data, status: 200
+            });
+        } catch (error) {
+            console.error('Error occurred during application:', error);
+            reject(error);
+        }
+    });
+}
+
+export const getJobs = (accessToken: string, filters: any): Promise<any> => {
+    return new Promise(async (resolve, reject) => {
+
+        let apiUrl = 'https://novel-project-ntj8t.ampt.app/api/jobs?perPage=' + filters.resultsPerPage;
+
+        if (filters.searchTerm.trim() !== '') {
+            apiUrl += '&search%5Bfield%5D=companyName&search%5Bquery%5D=' + encodeURIComponent(filters.searchTerm);
+        }
+
+        try {
+            const response = await fetch(apiUrl, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
