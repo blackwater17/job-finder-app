@@ -11,6 +11,12 @@ const jobResultsReducer = (state = initialState, action: any) => {
                 jobResults: action.payload
             };
 
+        case "SET_TOTAL_PAGES_COUNT":
+            return {
+                ...state,
+                totalPagesCount: action.payload
+            };
+
         case "SET_APPLIED_JOBS":
             return {
                 ...state,

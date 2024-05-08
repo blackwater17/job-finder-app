@@ -3,7 +3,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleJobDetailPopup } from '@/actions/appearances'
-import { applyToJob } from '@/utils/functions'
+import { applyToJob, withdrawJob } from '@/utils/functions'
 
 interface Props {
     job: any
@@ -23,12 +23,22 @@ export default function JobDetailPopup({ job }: Props) {
         }
     }
 
+    const handleWithdrawJob = async () => {
+        const response = await withdrawJob(job.id, account.accessToken);
+        if (response.status === 200) {
+            alert('Withdrawn successfully');
+            dispatch(toggleJobDetailPopup());
+        }
+    }
+
     return (
         showJobDetailPopup &&
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
             <div className="bg-white text-black relative p-8 rounded-lg w-96">
                 <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-black">Apply Job</h2>
+                    <h2 className="text-2xl font-bold text-black">
+                        {!account.user.appliedJobs.includes(job.id) ? 'Apply Job' : 'Withdraw Job'}
+                    </h2>
                 </div>
                 <div className="mb-4 text-sm">
                     <p><strong>Company name: </strong>{job.companyName}</p>
@@ -55,14 +65,20 @@ export default function JobDetailPopup({ job }: Props) {
                     >
                         Close
                     </button>
-                    {!account.user.appliedJobs.includes(job.id) &&
-                        <button
-                            className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:bg-blue-600 ml-2"
-                            onClick={handleApplyToJob}
-                        >
-                            Apply
-                        </button>
-                    }
+
+                    <button
+                        className="w-1/2 px-4 py-2 bg-gray-800 text-white rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:bg-gray-500 ml-2"
+                        onClick={() => {
+                            if (account.user.appliedJobs.includes(job.id)) {
+                                handleWithdrawJob();
+                            } else {
+                                handleApplyToJob();
+                            }
+                        }}
+                    >
+                        {!account.user.appliedJobs.includes(job.id) ? 'Apply' : 'Withdraw'}
+                    </button>
+
                 </div>
 
                 <button
@@ -73,6 +89,6 @@ export default function JobDetailPopup({ job }: Props) {
                 </button>
 
             </div>
-        </div>
+        </div >
     )
 }

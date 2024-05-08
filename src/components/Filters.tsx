@@ -26,7 +26,7 @@ export default function Filters() {
             <input value={filters.searchTerm} type="text" onChange={handleInputChange} className="w-1/4 p-2 outline-none border-none text-black" placeholder="Search for jobs" />
             <div className="ml-8">
                 <label>Results per page</label>
-                <select onChange={handleResultsPerPageChange()} className="ml-2 p-2 bg-gray-500 text-white">
+                <select onChange={handleResultsPerPageChange()} value={filters.resultsPerPage} className="ml-2 p-2 bg-gray-500 text-white">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>

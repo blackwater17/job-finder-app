@@ -91,10 +91,10 @@ export const withdrawJob = (jobId: string, accessToken: string): Promise<any> =>
 export const getJobs = (accessToken: string, filters: any): Promise<any> => {
     return new Promise(async (resolve, reject) => {
 
-        let apiUrl = 'https://novel-project-ntj8t.ampt.app/api/jobs?perPage=' + filters.resultsPerPage;
+        let apiUrl = 'https://novel-project-ntj8t.ampt.app/api/jobs?perPage=' + filters.resultsPerPage + "&page=" + filters.queryPage;
 
         if (filters.searchTerm.trim() !== '') {
-            apiUrl += '&search%5Bfield%5D=companyName&search%5Bquery%5D=' + encodeURIComponent(filters.searchTerm);
+            apiUrl += '&search%5Bfield%5D=name&search%5Bquery%5D=' + encodeURIComponent(filters.searchTerm);
         }
 
         try {
@@ -117,7 +117,6 @@ export const getJobs = (accessToken: string, filters: any): Promise<any> => {
 
 export const getJobsByIds = (jobIds: string[], accessToken: string): Promise<any> => {
 
-    // use GET method on /jobs/:id with Promise.all 
     return new Promise(async (resolve, reject) => {
         try {
             const response = await Promise.all(jobIds.map(async (jobId) => {

@@ -11,3 +11,22 @@ export const setResultsPerPage = (resultsPerPage: number) => {
         payload: resultsPerPage
     };
 }
+
+export const queryNextPage = () => {
+    return {
+        type: 'QUERY_NEXT_PAGE'
+    };
+}
+
+export const queryPreviousPage = () => {
+    return {
+        type: 'QUERY_PREVIOUS_PAGE'
+    };
+}
+
+export const setQueryPage = (queryPage: number) => {
+    return {
+        type: 'SET_QUERY_PAGE',
+        payload: queryPage
+    };
+}
