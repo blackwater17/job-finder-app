@@ -1,3 +1,10 @@
+export const setSearchField = (searchField: string) => {
+    return {
+        type: 'SET_SEARCH_FIELD',
+        payload: searchField
+    };
+}
+
 export const setSearchTerm = (searchTerm: string) => {
     return {
         type: 'SET_SEARCH_TERM',

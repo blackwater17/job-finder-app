@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleLoginPopup } from '@/actions/appearances';
 import { login } from '@/utils/functions';
 import { setAccount } from '@/actions/account';

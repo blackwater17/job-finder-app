@@ -23,21 +23,13 @@ export default function Header() {
                             Jobs
                         </Link>
                     </li>
-                    {!account.accessToken &&
-                        <li onClick={() => dispatch(toggleLoginPopup())}>
-                            <span className="cursor-pointer">Login</span>
-                        </li>
-                    }
+
                     {account.accessToken &&
                         <li onClick={() => dispatch(setAccount({}))}>
                             <span className="cursor-pointer">Logout</span>
                         </li>
                     }
-                    {!account.accessToken &&
-                        <li onClick={() => dispatch(toggleSignupPopup())}>
-                            <span className="cursor-pointer">Sign up</span>
-                        </li>
-                    }
+
                 </ul>
             </nav>
         </header >

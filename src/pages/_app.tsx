@@ -1,18 +1,22 @@
 import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import Header from "@/components/Header";
-import '../styles/globals.css';
-
+import { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Header from '@/components/Header';
 import { Provider } from 'react-redux';
-import configureStore from '../store/configureStore'; // Adjust the path accordingly
+import configureStore from '../store/configureStore';
 
 const store = configureStore();
+const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
-      <Header />
-      <Component {...pageProps} />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <Header />
+        <Component {...pageProps} />
+      </Provider>
+    </QueryClientProvider>
   );
 }
+
+export default App;

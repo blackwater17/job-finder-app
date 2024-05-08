@@ -1,11 +1,18 @@
 const initialState = {
     searchTerm: "",
+    searchField: "name",
     resultsPerPage: 10,
     queryPage: 1,
 };
 
 const filtersReducer = (state = initialState, action: any) => {
     switch (action.type) {
+        case "SET_SEARCH_FIELD":
+            return {
+                ...state,
+                searchField: action.payload,
+                searchTerm: "",
+            };
         case "SET_SEARCH_TERM":
             return {
                 ...state,

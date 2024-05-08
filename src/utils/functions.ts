@@ -94,7 +94,7 @@ export const getJobs = (accessToken: string, filters: any): Promise<any> => {
         let apiUrl = 'https://novel-project-ntj8t.ampt.app/api/jobs?perPage=' + filters.resultsPerPage + "&page=" + filters.queryPage;
 
         if (filters.searchTerm.trim() !== '') {
-            apiUrl += '&search%5Bfield%5D=name&search%5Bquery%5D=' + encodeURIComponent(filters.searchTerm);
+            apiUrl += '&search%5Bfield%5D=' + filters.searchField + '&search%5Bquery%5D=' + encodeURIComponent(filters.searchTerm);
         }
 
         try {
