@@ -1,0 +1,48 @@
+{
+    "Header": {
+        "homeLinkText": "Home",
+        "jobsLinkText": "Jobs",
+        "logout": "Logout"
+    },
+
+    "Home": {
+        "loginMessage": "Login/Sign Up to view content",
+        "welcome": "Welcome",
+        "login": "LOGIN",
+        "email": "Email",
+        "requiredEmail": "Email is required",
+        "requiredPassword": "Password is required",
+        "password": "Password",
+        "noAccountQuestion": "Don’t have an account?",
+        "alreadyRegisteredQuestion": "Already have an account?"
+    },
+
+    "Jobs": {
+      "loginMessage": "Login/Sign Up to view job board",
+      "appliedJobs": "Applied Jobs",
+      "noApplicationsMessage": "You have not applied to any jobs.",
+      "name": "Name",
+      "jobName": "Job name",
+      "companyName": "Company name",
+      "location": "Location",
+      "basicFilter": "Basic filter",  
+      "searchForJobs": "Search for jobs",
+      "resultsPerPage": "Results per page",
+      "createdAt": "Created at",
+      "keyword": "Keyword",
+      "salary": "Salary",
+      "jobDescription": "Job Description",
+      "noJobsFound": "No jobs found"
+    },
+
+    "ButtonTexts": {
+        "login": "Login",
+        "signup": "Sign up",
+        "close": "Close",
+        "apply": "Apply",
+        "withdraw": "Withdraw",
+        "details": "Details",
+        "previous": "Previous",
+        "next": "Next"
+    }
+}

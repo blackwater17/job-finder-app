@@ -6,9 +6,11 @@ import { AccountInterface, FiltersInterface, JobInterface } from "@/interfaces/i
 import { useQuery } from '@tanstack/react-query'
 import JobsBoard from "@/components/JobsBoard";
 import AppliedJobsSidebar from "@/components/AppliedJobsSidebar";
+import { useTranslations } from 'next-intl';
 
 export default function Jobs() {
 
+    const tJobs = useTranslations('Jobs');
     const [selectedJob, setSelectedJob] = useState<JobInterface | null>(null);
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
     const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
@@ -124,7 +126,9 @@ export default function Jobs() {
 
             {!account.accessToken &&
                 <div className="flex justify-center items-center mt-24">
-                    <h1 className="text-5xl font-bold text-center">Login/Sign Up to view job board</h1>
+                    <h1 className="text-5xl font-bold text-center">
+                        {tJobs('loginMessage')}
+                    </h1>
                 </div>
             }
 
@@ -154,4 +158,12 @@ export default function Jobs() {
 
         </div>
     );
+}
+
+export async function getStaticProps(context: any) {
+    return {
+        props: {
+            messages: (await import(`../../messages/${context.locale}.json`)).default
+        }
+    };
 }

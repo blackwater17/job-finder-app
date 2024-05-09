@@ -1,0 +1,45 @@
+{
+    "Header": {
+        "homeLinkText": "Accueil",
+        "jobsLinkText": "Emplois",
+        "logout": "Déconnexion"
+    },
+    "Home": {
+        "loginMessage": "Connectez-vous/Inscrivez-vous pour voir le contenu",
+        "welcome": "Bienvenue",
+        "login": "CONNEXION",
+        "email": "Email",
+        "requiredEmail": "L'email est requis",
+        "requiredPassword": "Le mot de passe est requis",
+        "password": "Mot de passe",
+        "noAccountQuestion": "Vous n'avez pas de compte?",
+        "alreadyRegisteredQuestion": "Déjà enregistré?"
+    },
+    "Jobs": {
+        "loginMessage": "Connectez-vous/Inscrivez-vous pour voir le tableau des emplois",
+        "appliedJobs": "Emplois Appliqués",
+        "noApplicationsMessage": "Vous n'avez postulé à aucun emploi.",
+        "name": "Nom",
+        "jobName": "Nom du poste",
+        "companyName": "Nom de l'entreprise",
+        "location": "Emplacement",
+        "basicFilter": "Filtre de base",
+        "searchForJobs": "Rechercher des emplois",
+        "resultsPerPage": "Résultats par page",
+        "createdAt": "Créé à",
+        "keyword": "Mot-clé",
+        "salary": "Salaire",
+        "jobDescription": "Description du poste",
+        "noJobsFound": "Aucun emploi trouvé"
+    },
+    "ButtonTexts": {
+        "login": "Connexion",
+        "signup": "S'inscrire",
+        "close": "Fermer",
+        "apply": "Appliquer",
+        "withdraw": "Retirer",
+        "details": "Détails",
+        "previous": "Précédent",
+        "next": "Suivant"
+    }
+}

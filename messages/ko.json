@@ -1,0 +1,45 @@
+{
+    "Header": {
+        "homeLinkText": "홈",
+        "jobsLinkText": "채용",
+        "logout": "로그아웃"
+    },
+    "Home": {
+        "loginMessage": "콘텐츠를 보려면 로그인/가입하세요",
+        "welcome": "환영합니다",
+        "login": "로그인",
+        "email": "이메일",
+        "requiredEmail": "이메일은 필수입니다",
+        "requiredPassword": "비밀번호는 필수입니다",
+        "password": "비밀번호",
+        "noAccountQuestion": "계정이 없으신가요?",
+        "alreadyRegisteredQuestion": "이미 계정이 있으신가요?"
+    },
+    "Jobs": {
+        "loginMessage": "채용 게시판을 보려면 로그인/가입하세요",
+        "appliedJobs": "지원한 채용",
+        "noApplicationsMessage": "아직 지원한 채용이 없습니다.",
+        "name": "이름",
+        "jobName": "직업 이름",
+        "companyName": "회사 이름",
+        "location": "위치",
+        "basicFilter": "기본 필터",
+        "searchForJobs": "채용 검색",
+        "resultsPerPage": "페이지당 결과 수",
+        "createdAt": "작성일",
+        "keyword": "키워드",
+        "salary": "급여",
+        "jobDescription": "직무 설명",
+        "noJobsFound": "채용 정보를 찾을 수 없습니다"
+    },
+    "ButtonTexts": {
+        "login": "로그인",
+        "signup": "가입",
+        "close": "닫기",
+        "apply": "지원",
+        "withdraw": "철회",
+        "details": "세부 사항",
+        "previous": "이전",
+        "next": "다음"
+    }
+}

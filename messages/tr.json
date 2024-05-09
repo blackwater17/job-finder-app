@@ -1,0 +1,48 @@
+{
+    "Header": {
+        "homeLinkText": "Anasayfa",
+        "jobsLinkText": "İşler",
+        "logout": "Çıkış"
+    },
+
+    "Home": {
+        "loginMessage": "İçeriği görüntülemek için giriş yapın/kaydolun",
+        "welcome": "Hoş geldiniz",
+        "login": "GİRİŞ YAP",
+        "email": "E-posta",
+        "requiredEmail": "E-posta zorunludur",
+        "requiredPassword": "Şifre zorunludur",
+        "password": "Şifre",
+        "noAccountQuestion": "Hesabınız yok mu?",
+        "alreadyRegisteredQuestion": "Zaten hesabınız var mı?"
+    },
+
+    "Jobs": {
+        "loginMessage": "İş panosunu görüntülemek için giriş yapın/kaydolun",
+        "appliedJobs": "Başvurulan İşler",
+        "noApplicationsMessage": "Hiçbir işe başvurmadınız.",
+        "name": "Ad",
+        "jobName": "İş adı",
+        "companyName": "Şirket adı",
+        "location": "Konum",
+        "basicFilter": "Temel filtre",
+        "searchForJobs": "İş ara",
+        "resultsPerPage": "Sayfa başına sonuç",
+        "createdAt": "Oluşturulma tarihi",
+        "keyword": "Anahtar kelime",
+        "salary": "Maaş",
+        "jobDescription": "İş Açıklaması",
+        "noJobsFound": "Hiç iş bulunamadı"
+    },
+
+    "ButtonTexts": {
+        "login": "Giriş yap",
+        "signup": "Kaydol",
+        "close": "Kapat",
+        "apply": "Başvur",
+        "withdraw": "Geri çek",
+        "details": "Detaylar",
+        "previous": "Önceki",
+        "next": "Sonraki"
+    }
+}

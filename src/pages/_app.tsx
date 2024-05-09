@@ -3,19 +3,29 @@ import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from '@/components/Header';
 import { Provider } from 'react-redux';
-import configureStore from '../store/configureStore';
+import configureStore from "@/store/configureStore";
+
+import { NextIntlClientProvider } from 'next-intl';
+import { useRouter } from 'next/router';
 
 const store = configureStore();
 const queryClient = new QueryClient();
 
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Header />
-        <Component {...pageProps} />
-      </Provider>
-    </QueryClientProvider>
+    <NextIntlClientProvider
+      locale={router.locale}
+      timeZone="Europe/Vienna"
+      messages={pageProps.messages}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Header />
+          <Component {...pageProps} />
+        </Provider>
+      </QueryClientProvider>
+    </NextIntlClientProvider>
   );
 }
 

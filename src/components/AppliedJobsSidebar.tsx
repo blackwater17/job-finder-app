@@ -1,6 +1,7 @@
 import React from 'react';
 import { AccountInterface, JobInterface } from '@/interfaces/interfaces';
 import { useSelector } from 'react-redux';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     appliedJobs?: JobInterface[];
@@ -8,6 +9,7 @@ interface Props {
 
 const AppliedJobsSidebar: React.FC<Props> = ({ appliedJobs }) => {
 
+    const tJobs = useTranslations('Jobs');
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
 
     return (
@@ -15,11 +17,13 @@ const AppliedJobsSidebar: React.FC<Props> = ({ appliedJobs }) => {
             <div className="p-10 flex flex-col justify-center items-center text-2xl border border-black">
                 <img alt="profile pic" src={account.user?.profileImage} width="30" />
                 <h3 className="text-xs m-2">{account.user?.email}</h3>
-                <h2 className="text-sm m-2">Applied Jobs</h2>
+                <h2 className="text-sm m-2">
+                    {tJobs('appliedJobs')}
+                </h2>
 
                 {appliedJobs?.length === 0 &&
                     <p className="text-sm text-center text-gray-400">
-                        You have not applied to any jobs.
+                        {tJobs('noApplicationsMessage')}
                     </p>
                 }
 
@@ -28,8 +32,8 @@ const AppliedJobsSidebar: React.FC<Props> = ({ appliedJobs }) => {
                         <div className="text-center">
                             <h3 className="pb-2"><strong>{job.name}</strong></h3>
                         </div>
-                        <p><strong>Company name: </strong>{job.companyName}</p>
-                        <p><strong>Location: </strong>{job.location}</p>
+                        <p><strong>{tJobs('companyName')}: </strong>{job.companyName}</p>
+                        <p><strong>{tJobs('location')}: </strong>{job.location}</p>
                     </div>
                 ))}
             </div>

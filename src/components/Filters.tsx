@@ -2,9 +2,11 @@ import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSearchField, setSearchTerm, setResultsPerPage } from '@/actions/filters'
 import { FiltersInterface } from "../interfaces/interfaces";
+import { useTranslations } from 'next-intl';
 
 export default function Filters() {
 
+    const tJobs = useTranslations('Jobs');
     const dispatch = useDispatch()
     const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
 
@@ -26,16 +28,18 @@ export default function Filters() {
     return (
         <div className="flex mt-8 p-6 items-center w-full bg-gray-700">
             <div className="mr-4">
-                <label>Basic filter</label>
+                <label>
+                    {tJobs('basicFilter')}
+                </label>
                 <select onChange={handleQueryFieldChange()} value={filters.searchField} className="ml-2 p-2 bg-gray-500 text-white">
-                    <option value="name">Name</option>
-                    <option value="companyName">Company name</option>
-                    <option value="location">Location</option>
+                    <option value="name">{tJobs('name')}</option>
+                    <option value="companyName">{tJobs('companyName')}</option>
+                    <option value="location">{tJobs('location')}</option>
                 </select>
             </div>
-            <input value={filters.searchTerm} type="text" onChange={handleInputChange} className="w-1/4 p-2 outline-none border-none text-black" placeholder="Search for jobs" />
+            <input value={filters.searchTerm} type="text" onChange={handleInputChange} className="w-1/4 p-2 outline-none border-none text-black" placeholder={tJobs('searchForJobs')} />
             <div className="ml-4">
-                <label>Results per page</label>
+                <label>{tJobs('resultsPerPage')}</label>
                 <select onChange={handleResultsPerPageChange()} value={filters.resultsPerPage} className="ml-2 p-2 bg-gray-500 text-white">
                     <option value="5">5</option>
                     <option value="10">10</option>
