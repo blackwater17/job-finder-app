@@ -20,7 +20,7 @@ export interface AccountInterface {
 export interface FiltersInterface {
     searchTerm: string;
     searchField: string;
-    resultsPerPage: string;
+    resultsPerPage: number;
     queryPage: number;
 }
 

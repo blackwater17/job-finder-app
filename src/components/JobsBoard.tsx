@@ -32,8 +32,8 @@ const JobsBoard: React.FC<Props> = ({ jobs, setVisibleJobDetailPopup, withdrawJo
         });
     }
 
-    const getTotalPagesCount = (total: number, resultsPerPage: string) => {
-        return Math.ceil(total / parseInt(resultsPerPage));
+    const getTotalPagesCount = (total: number, resultsPerPage: number) => {
+        return Math.ceil(total / resultsPerPage);
     };
 
     return (
