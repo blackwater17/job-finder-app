@@ -12,7 +12,7 @@ export const setSearchTerm = (searchTerm: string) => {
     };
 }
 
-export const setResultsPerPage = (resultsPerPage: number) => {
+export const setResultsPerPage = (resultsPerPage: string) => {
     return {
         type: 'SET_RESULTS_PER_PAGE',
         payload: resultsPerPage
@@ -28,12 +28,5 @@ export const queryNextPage = () => {
 export const queryPreviousPage = () => {
     return {
         type: 'QUERY_PREVIOUS_PAGE'
-    };
-}
-
-export const setQueryPage = (queryPage: number) => {
-    return {
-        type: 'SET_QUERY_PAGE',
-        payload: queryPage
     };
 }

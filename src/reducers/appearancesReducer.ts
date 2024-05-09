@@ -1,10 +1,14 @@
 const initialState = {
     showLoginPopup: false,
     showSignupPopup: false,
-    showJobDetailPopup: false,
 }
 
-const rootReducer = (state = initialState, action: any) => {
+interface AppearancesAction {
+    type: string;
+    payload: boolean;
+}
+
+const appearancesReducer = (state = initialState, action: AppearancesAction) => {
     switch (action.type) {
         case 'TOGGLE_LOGIN_POPUP':
             return {
@@ -16,14 +20,9 @@ const rootReducer = (state = initialState, action: any) => {
                 ...state,
                 showSignupPopup: !state.showSignupPopup
             }
-        case 'TOGGLE_JOB_DETAIL_POPUP':
-            return {
-                ...state,
-                showJobDetailPopup: !state.showJobDetailPopup
-            }
         default:
             return state;
     }
 }
 
-export default rootReducer;
+export default appearancesReducer;

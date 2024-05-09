@@ -1,21 +1,34 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleSignupPopup } from '@/actions/appearances';
-import { signup } from '@/utils/functions';
+import { useDispatch } from 'react-redux';
+import { toggleSignupPopup, toggleLoginPopup } from '@/actions/appearances';
+import { setAccount } from '@/actions/account';
+import { signup } from '@/utils/helpers';
+import { useMutation } from '@tanstack/react-query';
+import { LoginFormData } from '@/interfaces/interfaces';
 
-interface FormData {
-    email: string;
-    password: string;
-}
 
 export default function SignupPopup() {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
     const dispatch = useDispatch();
 
-    const onSubmit = (newAccountData: any) => {
-        console.log('Creating account with:', newAccountData);
-        signup(newAccountData)
+    const mutation = useMutation({
+        mutationFn: signup,
+        onSuccess: (data) => {
+            dispatch(toggleSignupPopup());
+            dispatch(setAccount(data));
+        },
+        onError: (error) => {
+            alert("Error during registering")
+        },
+    });
+
+    const onSubmit = async (newAccountData: LoginFormData) => {
+        try {
+            await mutation.mutateAsync(newAccountData);
+        } catch (error) {
+            // Error handling is done in onError callback
+        }
     };
 
     return (
@@ -51,7 +64,10 @@ export default function SignupPopup() {
                     </button>
                 </form>
                 <div className="text-center text-black">
-                    Already have an account? <span className="cursor-pointer text-blue-500">Log In</span>
+                    Already have an account? <span className="cursor-pointer text-blue-500" onClick={() => {
+                        dispatch(toggleSignupPopup());
+                        dispatch(toggleLoginPopup());
+                    }}>Log In</span>
                 </div>
                 <button
                     className="absolute text-black top-1 right-2 text-black px-3 py-1 text-xl rounded-md focus:outline-none"

@@ -9,9 +9,3 @@ export const toggleSignupPopup = () => {
         type: 'TOGGLE_SIGNUP_POPUP',
     };
 }
-
-export const toggleJobDetailPopup = () => {
-    return {
-        type: 'TOGGLE_JOB_DETAIL_POPUP',
-    };
-};

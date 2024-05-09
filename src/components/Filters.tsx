@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSearchField, setSearchTerm, setResultsPerPage } from '@/actions/filters'
-
+import { FiltersInterface } from "../interfaces/interfaces";
 
 export default function Filters() {
 
     const dispatch = useDispatch()
-    const filters = useSelector((state: any) => state.filters);
+    const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
 
-    const handleInputChange = (e: any) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         dispatch(setSearchTerm(searchTerm));
     }
 
-    const handleResultsPerPageChange = () => (e: any) => {
+    const handleResultsPerPageChange = () => (e: ChangeEvent<HTMLSelectElement>) => {
         const resultsPerPage = e.target.value;
         dispatch(setResultsPerPage(resultsPerPage));
     }
 
-    const handleQueryFieldChange = () => (e: any) => {
+    const handleQueryFieldChange = () => (e: ChangeEvent<HTMLSelectElement>) => {
         const searchField = e.target.value;
         dispatch(setSearchField(searchField));
     }

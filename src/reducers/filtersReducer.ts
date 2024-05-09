@@ -5,7 +5,12 @@ const initialState = {
     queryPage: 1,
 };
 
-const filtersReducer = (state = initialState, action: any) => {
+interface FiltersAction {
+    type: string;
+    payload?: unknown;
+}
+
+const filtersReducer = (state = initialState, action: FiltersAction) => {
     switch (action.type) {
         case "SET_SEARCH_FIELD":
             return {
@@ -16,18 +21,14 @@ const filtersReducer = (state = initialState, action: any) => {
         case "SET_SEARCH_TERM":
             return {
                 ...state,
-                searchTerm: action.payload
+                searchTerm: action.payload,
+                queryPage: 1
             };
         case "SET_RESULTS_PER_PAGE":
             return {
                 ...state,
                 resultsPerPage: action.payload,
                 queryPage: 1
-            };
-        case "SET_QUERY_PAGE":
-            return {
-                ...state,
-                queryPage: action.payload
             };
         case "QUERY_NEXT_PAGE":
             return {

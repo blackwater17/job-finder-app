@@ -1,24 +1,39 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { toggleLoginPopup } from '@/actions/appearances';
-import { login } from '@/utils/functions';
+import { toggleLoginPopup, toggleSignupPopup } from '@/actions/appearances';
+import { login } from '@/utils/helpers';
 import { setAccount } from '@/actions/account';
+import { useMutation } from '@tanstack/react-query';
+import { LoginFormData } from '@/interfaces/interfaces';
 
-interface FormData {
-    email: string;
-    password: string;
-}
 
 export default function LoginPopup() {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
     const dispatch = useDispatch();
 
-    const onSubmit = async (accountData: any) => {
-        const data = await login(accountData)
-        if (data.accessToken) { // successfull login
-            dispatch(toggleLoginPopup());
-            dispatch(setAccount(data));
+    const mutation = useMutation({
+        mutationFn: login,
+        onSuccess: (info: any) => {
+            if (info.status === 200) {
+                dispatch(toggleLoginPopup());
+                dispatch(setAccount(info.data));
+            } else {
+                alert("Failed to log in");
+            }
+        },
+        onError: (error) => {
+            // Handle login error
+            alert("Failed to log in");
+        },
+    });
+
+    const onSubmit = async (accountData: LoginFormData) => {
+
+        try {
+            await mutation.mutateAsync(accountData);
+        } catch (error) {
+            // Error handling is done in onError callback
         }
     };
 
@@ -55,7 +70,10 @@ export default function LoginPopup() {
                     </button>
                 </form>
                 <div className="text-center text-black">
-                    Don’t have an account? <span className="cursor-pointer text-blue-500">Sign Up</span>
+                    Don’t have an account? <span className="cursor-pointer text-blue-500" onClick={() => {
+                        dispatch(toggleLoginPopup());
+                        dispatch(toggleSignupPopup());
+                    }}>Sign Up</span>
                 </div>
                 <button
                     className="absolute text-black top-1 right-2 text-black px-3 py-1 text-xl rounded-md focus:outline-none"
