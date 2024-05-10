@@ -18,9 +18,13 @@ export default function SignupPopup() {
 
     const mutation = useMutation({
         mutationFn: signup,
-        onSuccess: (data) => {
-            dispatch(toggleSignupPopup());
-            dispatch(setAccount(data));
+        onSuccess: (info: any) => {
+            if (info.status === 200) {
+                dispatch(toggleSignupPopup());
+                dispatch(setAccount(info.data));
+            } else {
+                toast.error(info.message || 'Failed to signup.');
+            }
         },
         onError: (error) => {
             toast.error('Error occurred during signup.');
