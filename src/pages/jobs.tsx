@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from 'react-redux';
 import JobDetailPopup from "@/components/JobDetailPopup";
 import Filters from "@/components/Filters";
@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import JobsBoard from "@/components/JobsBoard";
 import AppliedJobsSidebar from "@/components/AppliedJobsSidebar";
 import { useTranslations } from 'next-intl';
+import { useDebounce } from "@uidotdev/usehooks";
+
 
 export default function Jobs() {
 
@@ -14,8 +16,10 @@ export default function Jobs() {
     const [selectedJob, setSelectedJob] = useState<JobInterface | null>(null);
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
     const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
+    const debouncedFilters = useDebounce(filters, 600);
     const [visibleJobDetailPopup, setVisibleJobDetailPopup] = useState(false);
 
+    
     const fetchJobs = async (accessToken: string, filters: FiltersInterface) => {
         try {
             const apiUrl = '/api/jobs';
@@ -61,12 +65,13 @@ export default function Jobs() {
     const getJobs = async () => {
         if (!account.accessToken) {
             throw new Error('Access token is not available');
-        }
-        const jobsResponse = await fetchJobs(account.accessToken, filters);
-        if (jobsResponse.status !== 200) {
-            throw new Error('Failed to fetch jobs');
         } else {
-            return jobsResponse.data;
+            const jobsResponse = await fetchJobs(account.accessToken, filters);
+            if (jobsResponse.status !== 200) {
+                throw new Error('Failed to fetch jobs');
+            } else {
+                return jobsResponse.data;
+            }
         }
     }
 
@@ -105,13 +110,13 @@ export default function Jobs() {
         }
     };
 
-    // jobs
+    // jobs with debounce 
     const { isLoading, error, data: jobs } = useQuery({
-        queryKey: ['jobs', filters],
+        queryKey: ['jobs', debouncedFilters],
         queryFn: () => getJobs(),
         placeholderData: previousData => previousData ?? { data: [], meta: { total: 0 } },
         staleTime: 180000
-    })
+    });
 
     // applied jobs
     const { isLoading: appliedJobsLoading, error: appliedJobsError, data: appliedJobs } = useQuery({
@@ -125,18 +130,16 @@ export default function Jobs() {
         <div>
 
             {!account.accessToken &&
-                <div className="flex justify-center items-center mt-24">
-                    <h1 className="text-5xl font-bold text-center">
-                        {tJobs('loginMessage')}
-                    </h1>
-                </div>
+                <h1 className="text-5xl mt-24 w-2/3 font-bold mx-auto text-center">
+                    {tJobs('loginMessage')}
+                </h1>
             }
 
             {account.accessToken &&
                 <div className="pb-20">
                     <Filters />
                     <div className="flex box-border flex-col sm:flex-row">
-                        {jobs &&
+                        {jobs?.data &&
                             <JobsBoard
                                 jobs={jobs}
                                 setSelectedJob={setSelectedJob}
