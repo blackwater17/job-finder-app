@@ -5,6 +5,7 @@ import Filters from "@/components/Filters";
 import { AccountInterface, FiltersInterface, JobInterface } from "@/interfaces/interfaces";
 import { useQuery } from '@tanstack/react-query'
 import JobsBoard from "@/components/JobsBoard";
+import SkeletonJobResult from "@/components/SkeletonJobResult";
 import AppliedJobsSidebar from "@/components/AppliedJobsSidebar";
 import { useTranslations } from 'next-intl';
 import { useDebounce } from "@uidotdev/usehooks";
@@ -16,7 +17,7 @@ export default function Jobs() {
     const [selectedJob, setSelectedJob] = useState<JobInterface | null>(null);
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
     const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
-    const debouncedTextQuery = useDebounce(filters.searchTerm, 500);
+    const debouncedTextQuery = useDebounce(filters.searchTerm, 400);
     const [visibleJobDetailPopup, setVisibleJobDetailPopup] = useState(false);
 
 
@@ -111,20 +112,30 @@ export default function Jobs() {
     };
 
     // jobs with debounced text query 
-    const { isLoading, error, data: jobs } = useQuery({
+    const { isLoading, isFetching, error, data: jobs } = useQuery({
         queryKey: ['jobs', filters.searchTerm !== "" ? debouncedTextQuery : '', filters.resultsPerPage, filters.queryPage, filters.searchField],
         queryFn: () => getJobs(),
         placeholderData: previousData => previousData ?? { data: [], meta: { total: 0 } },
-        staleTime: 180000
+        staleTime: 180000,
     });
 
     // applied jobs
-    const { isLoading: appliedJobsLoading, error: appliedJobsError, data: appliedJobs } = useQuery({
+    const { isLoading: appliedJobsLoading, isFetching: appliedJobsFetching, error: appliedJobsError, data: appliedJobs } = useQuery({
         queryKey: ['appliedJobs', account.user?.appliedJobs],
         queryFn: () => getAppliedJobs(),
         placeholderData: previousData => previousData ?? [],
-        staleTime: Infinity
+        staleTime: Infinity,
     })
+
+    if (error) {
+        console.error('Error fetching jobs:', error);
+        alert("Error fetching jobs")
+    }
+
+    if (appliedJobsError) {
+        console.error('Error fetching applied jobs:', appliedJobsError);
+        alert("Error fetching applied jobs")
+    }
 
     return (
         <div>
@@ -139,15 +150,24 @@ export default function Jobs() {
                 <div className="pb-20">
                     <Filters />
                     <div className="flex box-border flex-col sm:flex-row">
-                        {jobs?.data &&
-                            <JobsBoard
-                                jobs={jobs}
-                                setSelectedJob={setSelectedJob}
-                                withdrawJob={withdrawJob}
-                                setVisibleJobDetailPopup={setVisibleJobDetailPopup}
-                            />
-                        }
-                        <AppliedJobsSidebar appliedJobs={appliedJobs} />
+                        <div className="w-full sm:w-3/4">
+                            {isFetching &&
+                                <div>
+                                    {Array.from({ length: 5 }).map((_, index) => (
+                                        <SkeletonJobResult key={index} />
+                                    ))}
+                                </div>
+                            }
+                            {jobs &&
+                                <JobsBoard
+                                    jobs={jobs}
+                                    setSelectedJob={setSelectedJob}
+                                    withdrawJob={withdrawJob}
+                                    setVisibleJobDetailPopup={setVisibleJobDetailPopup}
+                                />
+                            }
+                        </div>
+                        <AppliedJobsSidebar isFetching={appliedJobsFetching} appliedJobs={appliedJobs} />
                     </div>
                 </div>
             }
