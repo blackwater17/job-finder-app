@@ -16,10 +16,10 @@ export default function Jobs() {
     const [selectedJob, setSelectedJob] = useState<JobInterface | null>(null);
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
     const filters = useSelector((state: { filters: FiltersInterface }) => state.filters);
-    const debouncedFilters = useDebounce(filters, 600);
+    const debouncedTextQuery = useDebounce(filters.searchTerm, 500);
     const [visibleJobDetailPopup, setVisibleJobDetailPopup] = useState(false);
 
-    
+
     const fetchJobs = async (accessToken: string, filters: FiltersInterface) => {
         try {
             const apiUrl = '/api/jobs';
@@ -110,9 +110,9 @@ export default function Jobs() {
         }
     };
 
-    // jobs with debounce 
+    // jobs with debounced text query 
     const { isLoading, error, data: jobs } = useQuery({
-        queryKey: ['jobs', debouncedFilters],
+        queryKey: ['jobs', filters.searchTerm !== "" ? debouncedTextQuery : '', filters.resultsPerPage, filters.queryPage, filters.searchField],
         queryFn: () => getJobs(),
         placeholderData: previousData => previousData ?? { data: [], meta: { total: 0 } },
         staleTime: 180000
