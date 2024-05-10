@@ -30,7 +30,7 @@ const AppliedJobsSidebar: React.FC<Props> = ({ appliedJobs, isFetching }) => {
                 }
 
                 {isFetching &&
-                    account.user?.appliedJobs.map((_, index) => (
+                    Array.from({ length: Math.min(5, (account.user?.appliedJobs.length || 0)) }).map((_, index) => (
                         <SkeletonAppliedJob key={index} />
                     ))
                 }

@@ -10,7 +10,7 @@ interface Props {
     jobs: { data: JobInterface[], meta: { total: number, page: number, perPage: number } };
     setSelectedJob: (job: JobInterface) => void;
     setVisibleJobDetailPopup: (visible: boolean) => void;
-    withdrawJob: (jobId: string, accessToken: string | undefined) => Promise<any>;
+    withdrawJob: (jobId: string, accessToken: string) => Promise<any>;
 }
 
 const JobsBoard: React.FC<Props> = ({ jobs, setVisibleJobDetailPopup, withdrawJob, setSelectedJob }) => {

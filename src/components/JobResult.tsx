@@ -8,7 +8,7 @@ interface Props {
     job: JobInterface;
     setSelectedJob: (job: JobInterface) => void;
     setVisibleJobDetailPopup: (visible: boolean) => void;
-    withdrawJob: (jobId: string, accessToken: string | undefined) => Promise<any>;
+    withdrawJob: (jobId: string, accessToken: string) => Promise<any>;
 }
 
 const JobResult: React.FC<Props> = ({ job, setSelectedJob, setVisibleJobDetailPopup, withdrawJob }) => {
@@ -19,6 +19,11 @@ const JobResult: React.FC<Props> = ({ job, setSelectedJob, setVisibleJobDetailPo
     const dispatch = useDispatch();
 
     const handleWithdrawJob = async (jobId: string) => {
+
+        if (!account.accessToken) {
+            return console.error("Access token is undefined");
+        }
+
         withdrawJob(jobId, account.accessToken).then((response) => {
             if (response.status === 200) {
                 dispatch(withdrawFromJob(jobId));

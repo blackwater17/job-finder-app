@@ -52,7 +52,8 @@ export default function Jobs() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ jobIds, accessToken })
+                // fetch & display only the last 5 applications
+                body: JSON.stringify({ jobIds: jobIds.slice(-5), accessToken })
             });
 
             const data = await response.json();
@@ -64,30 +65,30 @@ export default function Jobs() {
     };
 
     const getJobs = async () => {
-        if (!account.accessToken) {
-            throw new Error('Access token is not available');
-        } else {
+
+        if (account.accessToken) {
             const jobsResponse = await fetchJobs(account.accessToken, filters);
             if (jobsResponse.status !== 200) {
                 throw new Error('Failed to fetch jobs');
             } else {
                 return jobsResponse.data;
             }
+        } else {
+            return { data: [], meta: { total: 0 } };
         }
     }
 
     const getAppliedJobs = async () => {
+
         if (!account.accessToken || !account.user?.appliedJobs || account.user?.appliedJobs?.length === 0) return [];
-        if (account.user && account.accessToken) {
-            const appliedJobsResponse = await fetchJobsByIds(account.user.appliedJobs, account.accessToken);
-            if (appliedJobsResponse.status !== 200) {
-                throw new Error('Failed to fetch applied jobs');
-            }
-            return appliedJobsResponse.data;
+        const appliedJobsResponse = await fetchJobsByIds(account.user.appliedJobs, account.accessToken);
+        if (appliedJobsResponse.status !== 200) {
+            throw new Error('Failed to fetch applied jobs');
         }
+        return appliedJobsResponse.data;
     };
 
-    const withdrawJob = async (jobId: string, accessToken: string | undefined): Promise<{ status: number; data?: any; }> => {
+    const withdrawJob = async (jobId: string, accessToken: string): Promise<{ status: number; data?: any; }> => {
 
         try {
             const response = await fetch('/api/withdrawJob', {
@@ -113,7 +114,7 @@ export default function Jobs() {
 
     // jobs with debounced text query 
     const { isLoading, isFetching, error, data: jobs } = useQuery({
-        queryKey: ['jobs', filters.searchTerm !== "" ? debouncedTextQuery : '', filters.resultsPerPage, filters.queryPage, filters.searchField],
+        queryKey: ['jobs', filters.searchTerm !== "" ? debouncedTextQuery : '', filters.resultsPerPage, filters.queryPage, filters.searchField, account.accessToken],
         queryFn: () => getJobs(),
         placeholderData: previousData => previousData ?? { data: [], meta: { total: 0 } },
         staleTime: 180000,
@@ -121,7 +122,7 @@ export default function Jobs() {
 
     // applied jobs
     const { isLoading: appliedJobsLoading, isFetching: appliedJobsFetching, error: appliedJobsError, data: appliedJobs } = useQuery({
-        queryKey: ['appliedJobs', account.user?.appliedJobs],
+        queryKey: ['appliedJobs', account.user?.appliedJobs, account.accessToken],
         queryFn: () => getAppliedJobs(),
         placeholderData: previousData => previousData ?? [],
         staleTime: Infinity,
@@ -141,7 +142,7 @@ export default function Jobs() {
         <div>
 
             {!account.accessToken &&
-                <h1 className="text-5xl mt-24 w-2/3 font-bold mx-auto text-center">
+                <h1 className="text-3xl mt-24 w-2/3 font-bold mx-auto text-center sm:text-5xl">
                     {tJobs('loginMessage')}
                 </h1>
             }

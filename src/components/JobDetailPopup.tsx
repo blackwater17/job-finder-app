@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 interface Props {
     job: JobInterface,
     setVisibleJobDetailPopup: Dispatch<SetStateAction<boolean>>,
-    withdrawJob: (jobId: string, accessToken: string | undefined) => Promise<{ status: number; data?: any; }>
+    withdrawJob: (jobId: string, accessToken: string) => Promise<{ status: number; data?: any; }>
 }
 
 export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdrawJob }: Props) {
@@ -17,7 +17,7 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
     const dispatch = useDispatch();
     const account = useSelector((state: { account: AccountInterface }) => state.account.account);
 
-    const applyToJob = async (jobId: string, accessToken: string | undefined): Promise<{ status: number; data?: any; }> => {
+    const applyToJob = async (jobId: string, accessToken: string): Promise<{ status: number; data?: any; }> => {
 
         try {
             const response = await fetch('/api/applyToJob', {
@@ -42,6 +42,11 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
     };
 
     const handleApplyToJob = async () => {
+
+        if (!account.accessToken) {
+            return console.error("Access token is undefined");
+        }
+
         const response = await applyToJob(job.id, account.accessToken);
         if (response.status === 200) {
             setVisibleJobDetailPopup(false);
@@ -53,6 +58,11 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
     }
 
     const handleWithdrawJob = async () => {
+
+        if (!account.accessToken) {
+            return console.error("Access token is undefined");
+        }
+
         const response = await withdrawJob(job.id, account.accessToken);
         if (response.status === 200) {
             setVisibleJobDetailPopup(false);
