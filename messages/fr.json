@@ -17,7 +17,9 @@
     },
     "Jobs": {
         "loginMessage": "Connectez-vous/Inscrivez-vous pour voir le tableau des emplois",
-        "appliedJobs": "Emplois Appliqués",
+        "appliedJobs": "Emplois appliqués (Derniers 5)",
+        "applyJob": "Postuler à l'emploi",
+        "withdrawJob": "Retirer la candidature",
         "noApplicationsMessage": "Vous n'avez postulé à aucun emploi.",
         "name": "Nom",
         "jobName": "Nom du poste",

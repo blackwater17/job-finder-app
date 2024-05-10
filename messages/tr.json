@@ -19,7 +19,9 @@
 
     "Jobs": {
         "loginMessage": "İş panosunu görüntülemek için giriş yapın/kaydolun",
-        "appliedJobs": "Başvurulan İşler",
+        "appliedJobs": "Başvurulan İşler (Son 5)",
+        "applyJob": "İşe Başvur",
+        "withdrawJob": "Başvuruyu Geri Çek",
         "noApplicationsMessage": "Hiçbir işe başvurmadınız.",
         "name": "Ad",
         "jobName": "İş adı",

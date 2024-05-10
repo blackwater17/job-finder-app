@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AccountInterface, JobInterface } from '@/interfaces/interfaces';
 import { withdrawFromJob } from "@/actions/account";
 import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 interface Props {
     job: JobInterface;
@@ -28,8 +29,8 @@ const JobResult: React.FC<Props> = ({ job, setSelectedJob, setVisibleJobDetailPo
             if (response.status === 200) {
                 dispatch(withdrawFromJob(jobId));
             } else {
+                toast.error('Failed to withdraw job');
                 console.error("Failed to withdraw job:", response.status);
-                alert("Error withdrawing job");
             }
         });
     }

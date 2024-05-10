@@ -19,7 +19,9 @@
 
     "Jobs": {
       "loginMessage": "Login/Sign Up to view job board",
-      "appliedJobs": "Applied Jobs",
+      "appliedJobs": "Applied Jobs (Last 5)",
+      "applyJob": "Apply Job",
+      "withdrawJob": "Withdraw Job",
       "noApplicationsMessage": "You have not applied to any jobs.",
       "name": "Name",
       "jobName": "Job name",

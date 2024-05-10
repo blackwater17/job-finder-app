@@ -1,4 +1,5 @@
 import { LoginFormData } from "@/interfaces/interfaces";
+import { toast } from 'react-toastify';
 
 export const login = async (loginInfo: LoginFormData): Promise<any> => {
     try {
@@ -20,6 +21,7 @@ export const login = async (loginInfo: LoginFormData): Promise<any> => {
         return { status: response.status, data: responseData };
 
     } catch (error) {
+        toast.error('Error occurred during login.');
         console.error('Error occurred during login:', error);
     }
 };
@@ -36,13 +38,15 @@ export const signup = async (accountInfo: LoginFormData): Promise<any> => {
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to sign up');
+            return { status: response.status, data: errorData };
+            // throw new Error(errorData.error || 'Failed to sign up');
         }
 
         const data = await response.json();
         return data;
     } catch (error) {
+        toast.error('Error occurred during signup.');
         console.error('Error occurred during signup:', error);
-        throw error;
+        // throw error;
     }
 };

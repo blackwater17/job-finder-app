@@ -7,6 +7,7 @@ import { signup } from '@/utils/helpers';
 import { useMutation } from '@tanstack/react-query';
 import { LoginFormData } from '@/interfaces/interfaces';
 import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 export default function SignupPopup() {
 
@@ -22,7 +23,7 @@ export default function SignupPopup() {
             dispatch(setAccount(data));
         },
         onError: (error) => {
-            alert("Error during registering")
+            toast.error('Error occurred during signup.');
         },
     });
 
@@ -30,7 +31,7 @@ export default function SignupPopup() {
         try {
             await mutation.mutateAsync(newAccountData);
         } catch (error) {
-            // Error handling is done in onError callback
+            toast.error('Error occurred during signup.');
         }
     };
 

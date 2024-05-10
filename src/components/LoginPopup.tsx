@@ -7,6 +7,7 @@ import { setAccount } from '@/actions/account';
 import { useMutation } from '@tanstack/react-query';
 import { LoginFormData } from '@/interfaces/interfaces';
 import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 export default function LoginPopup() {
 
@@ -21,13 +22,14 @@ export default function LoginPopup() {
             if (info.status === 200) {
                 dispatch(toggleLoginPopup());
                 dispatch(setAccount(info.data));
+            } else if (info.status === 401) {
+                toast.error('Invalid credentials');
             } else {
-                alert("Failed to log in");
+                toast.error('Failed to log in');
             }
         },
         onError: (error) => {
-            // Handle login error
-            alert("Failed to log in");
+            toast.error('Failed to log in');
         },
     });
 
@@ -36,7 +38,7 @@ export default function LoginPopup() {
         try {
             await mutation.mutateAsync(accountData);
         } catch (error) {
-            // Error handling is done in onError callback
+            toast.error('Failed to log in');
         }
     };
 

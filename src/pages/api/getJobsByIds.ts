@@ -17,8 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const data = await Promise.all(response.map(async (res) => {
                 return res.json();
             }));
-
             res.status(200).json(data);
+
         } catch (error) {
             console.error('Error occurred during fetching jobs:', error);
             res.status(500).json({ error: 'Internal server error' });

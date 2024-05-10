@@ -9,6 +9,7 @@ import SkeletonJobResult from "@/components/SkeletonJobResult";
 import AppliedJobsSidebar from "@/components/AppliedJobsSidebar";
 import { useTranslations } from 'next-intl';
 import { useDebounce } from "@uidotdev/usehooks";
+import { toast } from "react-toastify";
 
 
 export default function Jobs() {
@@ -34,12 +35,14 @@ export default function Jobs() {
 
             const response = await fetch(apiUrl, requestOptions);
             if (!response.ok) {
-                throw new Error('Failed to fetch jobs');
+                toast.error('Error fetching jobs.');
+                // throw new Error('Failed to fetch jobs');
             }
 
             const data = await response.json();
             return { status: response.status, data };
         } catch (error) {
+            toast.error('Error fetching jobs.');
             console.error('Error occurred during fetching jobs:', error);
             throw error;
         }
@@ -59,8 +62,9 @@ export default function Jobs() {
             const data = await response.json();
             return { data, status: response.status };
         } catch (error) {
+            toast.error('Error fetching applied jobs.');
             console.error('Error fetching jobs by IDs:', error);
-            throw error;
+            // throw error;
         }
     };
 
@@ -69,6 +73,7 @@ export default function Jobs() {
         if (account.accessToken) {
             const jobsResponse = await fetchJobs(account.accessToken, filters);
             if (jobsResponse.status !== 200) {
+                toast.error('Failed to fetch jobs');
                 throw new Error('Failed to fetch jobs');
             } else {
                 return jobsResponse.data;
@@ -83,7 +88,8 @@ export default function Jobs() {
         if (!account.accessToken || !account.user?.appliedJobs || account.user?.appliedJobs?.length === 0) return [];
         const appliedJobsResponse = await fetchJobsByIds(account.user.appliedJobs, account.accessToken);
         if (appliedJobsResponse.status !== 200) {
-            throw new Error('Failed to fetch applied jobs');
+            toast.error('Error fetching applied jobs');
+            // throw new Error('Failed to fetch applied jobs');
         }
         return appliedJobsResponse.data;
     };
@@ -100,6 +106,7 @@ export default function Jobs() {
             });
 
             if (!response.ok) {
+                toast.error('Failed to withdraw job');
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Failed to withdraw');
             }
@@ -107,13 +114,14 @@ export default function Jobs() {
             const data = await response.json();
             return { status: response.status, data };
         } catch (error) {
+            toast.error('Error during withdraw');
             console.error('Error during withdraw:', error);
             throw error;
         }
     };
 
     // jobs with debounced text query 
-    const { isLoading, isFetching, error, data: jobs } = useQuery({
+    const { isFetching, error, data: jobs } = useQuery({
         queryKey: ['jobs', filters.searchTerm !== "" ? debouncedTextQuery : '', filters.resultsPerPage, filters.queryPage, filters.searchField, account.accessToken],
         queryFn: () => getJobs(),
         placeholderData: previousData => previousData ?? { data: [], meta: { total: 0 } },
@@ -121,7 +129,7 @@ export default function Jobs() {
     });
 
     // applied jobs
-    const { isLoading: appliedJobsLoading, isFetching: appliedJobsFetching, error: appliedJobsError, data: appliedJobs } = useQuery({
+    const { isFetching: appliedJobsFetching, error: appliedJobsError, data: appliedJobs } = useQuery({
         queryKey: ['appliedJobs', account.user?.appliedJobs, account.accessToken],
         queryFn: () => getAppliedJobs(),
         placeholderData: previousData => previousData ?? [],
@@ -129,13 +137,13 @@ export default function Jobs() {
     })
 
     if (error) {
+        toast.error('Error fetching jobs');
         console.error('Error fetching jobs:', error);
-        alert("Error fetching jobs")
     }
 
     if (appliedJobsError) {
+        toast.error('Error fetching applied jobs');
         console.error('Error fetching applied jobs:', appliedJobsError);
-        alert("Error fetching applied jobs")
     }
 
     return (

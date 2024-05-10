@@ -17,7 +17,9 @@
     },
     "Jobs": {
         "loginMessage": "채용 게시판을 보려면 로그인/가입하세요",
-        "appliedJobs": "지원한 채용",
+        "appliedJobs": "지원한 채용 공고 (최근 5개)",
+        "applyJob": "채용 공고에 지원하기",
+        "withdrawJob": "채용 공고 지원 철회하기",
         "noApplicationsMessage": "아직 지원한 채용이 없습니다.",
         "name": "이름",
         "jobName": "직업 이름",

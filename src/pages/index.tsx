@@ -5,6 +5,7 @@ import { toggleLoginPopup, toggleSignupPopup } from "@/actions/appearances";
 import { AccountInterface, PopupVisibilityInterface } from "@/interfaces/interfaces";
 import { useTranslations } from 'next-intl';
 
+
 export default function Home() {
 
   const tHome = useTranslations('Home');

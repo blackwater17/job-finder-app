@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { withdrawFromJob, applyJob } from '@/actions/account'
 import { JobInterface, AccountInterface } from '@/interfaces/interfaces'
 import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 
 interface Props {
     job: JobInterface,
@@ -30,12 +31,14 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
 
             if (!response.ok) {
                 const errorData = await response.json();
+                toast.error(errorData.error || 'Failed to apply');
                 throw new Error(errorData.error || 'Failed to apply');
             }
 
             const data = await response.json();
             return { status: response.status, data };
         } catch (error) {
+            toast.error('Error applying to job');
             console.error('Error applying to job:', error);
             throw error;
         }
@@ -52,8 +55,8 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
             setVisibleJobDetailPopup(false);
             dispatch(applyJob(job.id));
         } else {
+            toast.error('Failed to apply to job');
             console.error("Failed to apply to job:", response.status);
-            alert("Error applying to job");
         }
     }
 
@@ -68,8 +71,8 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
             setVisibleJobDetailPopup(false);
             dispatch(withdrawFromJob(job.id));
         } else {
+            toast.error('Failed to withdraw job');
             console.error("Failed to withdraw job:", response.status);
-            alert("Error withdrawing job");
         }
     }
 
@@ -78,7 +81,7 @@ export default function JobDetailPopup({ job, setVisibleJobDetailPopup, withdraw
             <div className="bg-white text-black relative p-8 rounded-lg w-96">
                 <div className="text-center mb-6">
                     <h2 className="text-2xl font-bold text-black">
-                        {!account.user?.appliedJobs?.includes(job.id) ? 'Apply Job' : 'Withdraw Job'}
+                        {!account.user?.appliedJobs?.includes(job.id) ? tJobs('applyJob') : tJobs('withdrawJob')}
                     </h2>
                 </div>
                 <div className="mb-4 text-sm">
